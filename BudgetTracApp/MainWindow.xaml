@@ -19,10 +19,10 @@
             <TextBox HorizontalAlignment="Center" Height="23" TextWrapping="Wrap" Text="Home" VerticalAlignment="Center" Width="120" TextAlignment="Center"/>
         </Grid>
 
-        <Grid x:Name="IncomeGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom" Visibility="Hidden">
+        <Grid x:Name="IncomeGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom">
             <TextBlock Grid.Row="0" x:Name="IncomeHeaderTXT" HorizontalAlignment="Center" Height="40" TextWrapping="Wrap" Text="Income Page" VerticalAlignment="Top" Width="250" TextAlignment="Center" FontSize="20" FontWeight="Bold"/>
-            <Grid Grid.Row="1" x:Name="IncomeListPageGrid" HorizontalAlignment="Center" Height="320" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5" Visibility="Hidden">
-                <DataGrid x:Name="IncomeList" HorizontalAlignment="Center" Height="275" VerticalAlignment="Top" Width="780" Margin="0,5,0,0" SelectionChanged="IncomeList_SelectionChanged"></DataGrid>
+            <Grid Grid.Row="1" x:Name="IncomeListPageGrid" HorizontalAlignment="Center" Height="320" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5">
+                <DataGrid x:Name="IncomeList" HorizontalAlignment="Center" Height="275" VerticalAlignment="Top" Width="780" Margin="0,5,0,0" SelectionChanged="IncomeList_SelectionChanged" Visibility="Visible"></DataGrid>
                 <Button x:Name="AddIncomeBTM" Click="OnAddIncomeBTNClick" Content="Add Income" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30" Width="160" Margin="0,0,400,5"></Button>
                 <Button x:Name="EditIncomeBTM" Click="OnEditIncomeBTNClick" Content="Edit Selected Income" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30" Width="160" Margin="0,0,0,5"></Button>
                 <Button x:Name="DeleteIncomeBTM" Click="OnDeleteIncomeBTNClick" Content="Delete Selected Income" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30" Width="160" Margin="400,0,0,5"></Button>
@@ -58,7 +58,7 @@
                 <Button x:Name="CancelIncomeBTM" Click="OnCancelIncomeBTNClick" Content="Cancel" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30" Width="160" Margin="200,0,0,5"></Button>
             </Grid>
 
-            <Grid Grid.Row="1" x:Name="EditIncomePageGrid" HorizontalAlignment="Center" Height="320" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5">
+            <Grid Grid.Row="1" x:Name="EditIncomePageGrid" HorizontalAlignment="Center" Height="320" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5" Visibility="Hidden">
                 <DataGrid x:Name="EditIncomePage" HorizontalAlignment="Center" Height="275" VerticalAlignment="Top" Width="780" Margin="0,5,0,0"></DataGrid>
 
                 <TextBlock Text="Description" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="150" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="10,15,0,0"></TextBlock>
@@ -156,7 +156,7 @@
             </Grid>
         </Grid>
 
-        <Grid x:Name="ReminderGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom">
+        <Grid x:Name="ReminderGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom" Visibility="Hidden">
             <TextBlock Grid.Row="0" x:Name="ReminderHeaderTXT" HorizontalAlignment="Center" Height="40" TextWrapping="Wrap" Text="Reminder Page" VerticalAlignment="Top" Width="250" TextAlignment="Center" FontSize="20" FontWeight="Bold"/>
             <Grid Grid.Row="1" x:Name="ReminderListPageGrid" HorizontalAlignment="Center" Height="320" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5" Visibility="Hidden">
                 <DataGrid x:Name="ReminderList" HorizontalAlignment="Center" Height="275" VerticalAlignment="Top" Width="780" Margin="0,5,0,0" SelectionChanged="ReminderList_SelectionChanged"></DataGrid>

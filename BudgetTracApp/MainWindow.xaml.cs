@@ -40,9 +40,9 @@ namespace BudgetTracApp
 
             BudgetTracDBEntities db = new BudgetTracDBEntities();
 
-            var incomes = from i in db.Incomes select i;
-            var reminders = from i in db.Reminders select i;
-            var expenses = from i in db.Expenses select i;
+            var incomes = from i in db.Incomes orderby i.Date descending select i;
+            var reminders = from i in db.Reminders orderby i.Date ascending select i;
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
 
             /*
             foreach (Income item in incomes)
@@ -147,6 +147,9 @@ namespace BudgetTracApp
             this.IncomeRadioYesBtn.IsChecked = true;
             this.IncomeTypeCMB.SelectedIndex = 0;
 
+            this.IncomeDateCalander.DisplayDateStart = DateTime.MinValue;
+            this.IncomeDateCalander.DisplayDateEnd = DateTime.Today;
+
             this.IncomeListPageGrid.Visibility = Visibility.Hidden;
             this.AddIncomePageGrid.Visibility = Visibility.Visible;
             this.EditIncomePageGrid.Visibility = Visibility.Hidden;
@@ -155,6 +158,9 @@ namespace BudgetTracApp
         void OnEditIncomeBTNClick(object sender, RoutedEventArgs e)
         {
             this.IncomeHeaderTXT.Text = "Edit Income Page";
+
+            this.IncomeEditDateCalander.DisplayDateStart = DateTime.MinValue;
+            this.IncomeEditDateCalander.DisplayDateEnd = DateTime.Today;
 
             this.IncomeListPageGrid.Visibility = Visibility.Hidden;
             this.AddIncomePageGrid.Visibility = Visibility.Hidden;
@@ -177,7 +183,9 @@ namespace BudgetTracApp
                 db.SaveChanges();
             }
 
-            this.IncomeList.ItemsSource = db.Incomes.ToList();
+            var incomes = from i in db.Incomes orderby i.Date descending select i;
+
+            this.IncomeList.ItemsSource = incomes.ToList();
         }
 
         void OnAddIncomeConfirmBTNClick(object sender, RoutedEventArgs e)
@@ -214,7 +222,9 @@ namespace BudgetTracApp
             this.IncomeTypeCMB.SelectedIndex = 0;
             this.IncomeAmountTXT.Clear();
 
-            this.IncomeList.ItemsSource = db.Incomes.ToList();
+            var incomes = from i in db.Incomes orderby i.Date descending select i;
+
+            this.IncomeList.ItemsSource = incomes.ToList();
         }
 
         void OnEditIncomeConfirmBTNClick(object sender, RoutedEventArgs e)
@@ -256,7 +266,9 @@ namespace BudgetTracApp
             this.IncomeEditTypeCMB.SelectedIndex = 0;
             this.IncomeEditTaxAmountTXT.Clear();
 
-            this.IncomeList.ItemsSource = db.Incomes.ToList();
+            var incomes = from i in db.Incomes orderby i.Date descending select i;
+
+            this.IncomeList.ItemsSource = incomes.ToList();
         }
 
         void OnCancelIncomeBTNClick(object sender, RoutedEventArgs e)
@@ -275,7 +287,9 @@ namespace BudgetTracApp
             this.IncomeTypeCMB.SelectedIndex = 0;
             this.IncomeAmountTXT.Clear();
 
-            this.IncomeList.ItemsSource = db.Incomes.ToList();
+            var incomes = from i in db.Incomes orderby i.Date descending select i;
+
+            this.IncomeList.ItemsSource = incomes.ToList();
         }
 
         void IncomeOnRadioButtonChange(object sender, RoutedEventArgs e)
@@ -373,6 +387,9 @@ namespace BudgetTracApp
 
             this.ExpenseTypeCMB.SelectedIndex = 0;
 
+            this.ExpenseDateCalander.DisplayDateStart = DateTime.MinValue;
+            this.ExpenseDateCalander.DisplayDateEnd = DateTime.Today;
+
             this.ExpenseListPageGrid.Visibility = Visibility.Hidden;
             this.AddExpensePageGrid.Visibility = Visibility.Visible;
             this.EditExpensePageGrid.Visibility = Visibility.Hidden;
@@ -381,6 +398,9 @@ namespace BudgetTracApp
         void OnEditExpenseBTNClick(object sender, RoutedEventArgs e)
         {
             this.ExpenseHeaderTXT.Text = "Edit Expense Page";
+
+            this.ExpenseEditDateCalander.DisplayDateStart = DateTime.MinValue;
+            this.ExpenseEditDateCalander.DisplayDateEnd = DateTime.Today;
 
             this.ExpenseListPageGrid.Visibility = Visibility.Hidden;
             this.AddExpensePageGrid.Visibility = Visibility.Hidden;
@@ -403,7 +423,8 @@ namespace BudgetTracApp
                 db.SaveChanges();
             }
 
-            this.ExpenseList.ItemsSource = db.Expenses.ToList();
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
+            this.ExpenseList.ItemsSource = expenses.ToList();
         }
 
         void OnAddExpenseConfirmBTNClick(object sender, RoutedEventArgs e)
@@ -436,7 +457,8 @@ namespace BudgetTracApp
             this.ExpenseAmountTXT.Clear();
             this.ExpenseTypeCMB.SelectedIndex = 0;
 
-            this.ExpenseList.ItemsSource = db.Expenses.ToList();
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
+            this.ExpenseList.ItemsSource = expenses.ToList();
         }
 
         void OnEditExpenseConfirmBTNClick(object sender, RoutedEventArgs e)
@@ -474,7 +496,8 @@ namespace BudgetTracApp
             this.ExpenseAmountTXT.Clear();
             this.ExpenseTypeCMB.SelectedIndex = 0;
 
-            this.ExpenseList.ItemsSource = db.Expenses.ToList();
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
+            this.ExpenseList.ItemsSource = expenses.ToList();
         }
 
         void OnCancelExpenseBTNClick(object sender, RoutedEventArgs e)
@@ -491,7 +514,8 @@ namespace BudgetTracApp
             this.ExpenseAmountTXT.Clear();
             this.ExpenseTypeCMB.SelectedIndex = 0;
 
-            this.ExpenseList.ItemsSource = db.Expenses.ToList();
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
+            this.ExpenseList.ItemsSource = expenses.ToList();
         }
 
         void OnExpenseEditTypeSelectionChange(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -560,6 +584,9 @@ namespace BudgetTracApp
 
             this.ReminderTypeCMB.SelectedIndex = 0;
 
+            this.ReminderDateCalander.DisplayDateStart = DateTime.Today.AddDays(+1);
+            this.ReminderDateCalander.DisplayDateEnd = DateTime.MaxValue;
+
             this.ReminderListPageGrid.Visibility = Visibility.Hidden;
             this.AddReminderPageGrid.Visibility = Visibility.Visible;
             this.EditReminderPageGrid.Visibility = Visibility.Hidden;
@@ -568,6 +595,9 @@ namespace BudgetTracApp
         void OnEditReminderBTNClick(object sender, RoutedEventArgs e)
         {
             this.ReminderHeaderTXT.Text = "Edit Reminder Page";
+
+            this.ReminderEditDateCalander.DisplayDateStart = DateTime.Today.AddDays(+1);
+            this.ReminderEditDateCalander.DisplayDateEnd = DateTime.MaxValue;
 
             this.ReminderListPageGrid.Visibility = Visibility.Hidden;
             this.AddReminderPageGrid.Visibility = Visibility.Hidden;
@@ -590,7 +620,8 @@ namespace BudgetTracApp
                 db.SaveChanges();
             }
 
-            this.ReminderList.ItemsSource = db.Reminders.ToList();
+            var reminders = from i in db.Reminders orderby i.Date ascending select i;
+            this.ReminderList.ItemsSource = reminders.ToList();
         }
 
         void OnAddReminderConfirmBTNClick(object sender, RoutedEventArgs e)
@@ -623,7 +654,8 @@ namespace BudgetTracApp
             this.ReminderAmountTXT.Clear();
             this.ReminderTypeCMB.SelectedIndex = 0;
 
-            this.ReminderList.ItemsSource = db.Reminders.ToList();
+            var reminders = from i in db.Reminders orderby i.Date ascending select i;
+            this.ReminderList.ItemsSource = reminders.ToList();
         }
 
         void OnEditReminderConfirmBTNClick(object sender, RoutedEventArgs e)
@@ -661,7 +693,8 @@ namespace BudgetTracApp
             this.ReminderEditAmountTXT.Clear();
             this.ReminderEditTypeCMB.SelectedIndex = 0;
 
-            this.ReminderList.ItemsSource = db.Reminders.ToList();
+            var reminders = from i in db.Reminders orderby i.Date ascending select i;
+            this.ReminderList.ItemsSource = reminders.ToList();
         }
 
         void OnCancelReminderBTNClick(object sender, RoutedEventArgs e)
@@ -678,7 +711,8 @@ namespace BudgetTracApp
             this.ReminderAmountTXT.Clear();
             this.ReminderTypeCMB.SelectedIndex = 0;
 
-            this.ReminderList.ItemsSource = db.Reminders.ToList();
+            var reminders = from i in db.Reminders orderby i.Date ascending select i;
+            this.ReminderList.ItemsSource = reminders.ToList();
         }
 
         void OnReminderEditTypeSelectionChange(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
