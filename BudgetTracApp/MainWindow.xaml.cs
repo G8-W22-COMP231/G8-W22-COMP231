@@ -104,6 +104,21 @@ namespace BudgetTracApp
             this.AddIncomePageGrid.Visibility = Visibility.Hidden;
             this.EditIncomePageGrid.Visibility = Visibility.Hidden;
         }
+        //ananthan
+        void OnIncomeMonthBTNClick(object sender, RoutedEventArgs e)
+        {
+            this.IncomeHeaderTXT.Text = "Income Page";
+
+            this.HomeGrid.Visibility = Visibility.Hidden;
+            this.IncomeGrid.Visibility = Visibility.Visible;
+            this.ExpenesGrid.Visibility = Visibility.Hidden;
+            this.ReminderGrid.Visibility = Visibility.Hidden;
+            this.AllGrid.Visibility = Visibility.Hidden;
+
+            this.IncomeListPageGrid.Visibility = Visibility.Visible;
+            this.AddIncomePageGrid.Visibility = Visibility.Hidden;
+            this.EditIncomePageGrid.Visibility = Visibility.Hidden;
+        }
 
         void OnExpensBTNClick(object sender, RoutedEventArgs e)
         {
