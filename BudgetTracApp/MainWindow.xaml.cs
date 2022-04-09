@@ -115,6 +115,25 @@ namespace BudgetTracApp
             this.ReminderGrid.Visibility = Visibility.Hidden;
             this.AllGrid.Visibility = Visibility.Hidden;
 
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+            List<Income> allIncomes = db.Incomes.ToList();
+            List<Income> thisMonthIncome = new List<Income>();
+
+
+
+            foreach (Income income in allIncomes)
+            {
+                if (income.Date.Value.Month == DateTime.Now.Month)
+                {
+                    thisMonthIncome.Add(income);
+                }
+            }
+
+
+
+            this.IncomeList.ItemsSource = thisMonthIncome;
+
             this.IncomeListPageGrid.Visibility = Visibility.Visible;
             this.AddIncomePageGrid.Visibility = Visibility.Hidden;
             this.EditIncomePageGrid.Visibility = Visibility.Hidden;
