@@ -81,6 +81,7 @@ namespace BudgetTracApp
             this.ReminderList.ItemsSource = reminders.ToList();
         }
 
+        #region NAVBAR REGOIN
         void OnHomeBTNClick(object sender, RoutedEventArgs e)
         {
             this.HomeGrid.Visibility = Visibility.Visible;
@@ -138,7 +139,47 @@ namespace BudgetTracApp
             this.ExpenesGrid.Visibility = Visibility.Hidden;
             this.ReminderGrid.Visibility = Visibility.Hidden;
             this.AllGrid.Visibility = Visibility.Visible;
+
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+            var incomes = from i in db.Incomes orderby i.Date descending select i;
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
+
+            double totalIncome = 0.0f;
+            double lastMonthIncome = 0.0f;
+            double currentMonthIncome = 0.0f;
+
+            foreach(Income i in incomes)
+            {
+                totalIncome += i.Amount.Value;
+
+                if (i.Date.Value.Month == DateTime.Today.Month)
+                    currentMonthIncome += i.Amount.Value;
+
+                else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                    lastMonthIncome += i.Amount.Value;
+            }
+
+            double totalExpensee = 0.0f;
+            double lastMonthExpense = 0.0f;
+            double currentMonthExpense = 0.0f;
+
+            foreach (Expense i in expenses)
+            {
+                totalExpensee += i.Amount.Value;
+
+                if (i.Date.Value.Month == DateTime.Today.Month)
+                    currentMonthExpense += i.Amount.Value;
+
+                else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                    lastMonthExpense += i.Amount.Value;
+            }
         }
+
+        #endregion
+
+
+        #region INCOME PAGE
 
         void OnAddIncomeBTNClick(object sender, RoutedEventArgs e)
         {
@@ -381,6 +422,10 @@ namespace BudgetTracApp
             }
         }
 
+        #endregion
+
+        #region EXPENSE PAGE
+
         void OnAddExpenseBTNClick(object sender, RoutedEventArgs e)
         {
             this.ExpenseHeaderTXT.Text = "Add Expense Page";
@@ -578,6 +623,10 @@ namespace BudgetTracApp
             }
         }
 
+        #endregion
+
+        #region REMINDER PAGE
+
         void OnAddReminderBTNClick(object sender, RoutedEventArgs e)
         {
             this.ReminderHeaderTXT.Text = "Add Reminder Page";
@@ -774,5 +823,7 @@ namespace BudgetTracApp
                 this.ReminderUpdateIndex = i.ID;
             }
         }
+
+        #endregion
     }
 }
