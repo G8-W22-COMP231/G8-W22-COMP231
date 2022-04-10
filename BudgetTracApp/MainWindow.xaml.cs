@@ -140,6 +140,9 @@ namespace BudgetTracApp
             this.ReminderGrid.Visibility = Visibility.Hidden;
             this.AllGrid.Visibility = Visibility.Visible;
 
+            this.IncomeAllDataPageNoFilterGrid.Visibility = Visibility.Visible;
+            this.ExpenseAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
+
             BudgetTracDBEntities db = new BudgetTracDBEntities();
 
             var incomes = from i in db.Incomes orderby i.Date descending select i;
@@ -174,6 +177,10 @@ namespace BudgetTracApp
                 else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
                     lastMonthExpense += i.Amount.Value;
             }
+
+            this.currentMonthIncomeAllPageTXT.Text = currentMonthIncome.ToString();
+            this.lastMonthIncomeALLPageTXT.Text = lastMonthIncome.ToString();
+            this.allIncomeAllPageTXT.Text = totalIncome.ToString();
         }
 
         #endregion
@@ -822,6 +829,77 @@ namespace BudgetTracApp
 
                 this.ReminderUpdateIndex = i.ID;
             }
+        }
+
+        #endregion
+
+        #region All DATA PAGE
+        void OnIncomeAllDataBTNClick(object sender, RoutedEventArgs e)
+        {
+            this.IncomeAllDataPageNoFilterGrid.Visibility = Visibility.Visible;
+            this.ExpenseAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
+
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+            var incomes = from i in db.Incomes orderby i.Date descending select i;
+
+            double totalIncome = 0.0f;
+            double lastMonthIncome = 0.0f;
+            double currentMonthIncome = 0.0f;
+
+            foreach (Income i in incomes)
+            {
+                totalIncome += i.Amount.Value;
+
+                if (i.Date.Value.Month == DateTime.Today.Month)
+                    currentMonthIncome += i.Amount.Value;
+
+                else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                    lastMonthIncome += i.Amount.Value;
+            }
+
+            this.currentMonthIncomeAllPageTXT.Text = currentMonthIncome.ToString();
+            this.lastMonthIncomeALLPageTXT.Text = lastMonthIncome.ToString();
+            this.allIncomeAllPageTXT.Text = totalIncome.ToString();
+        }
+
+        void OnExpenseAllDataBTNClick(object sender, RoutedEventArgs e)
+        {
+            this.IncomeAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
+            this.ExpenseAllDataPageNoFilterGrid.Visibility = Visibility.Visible;
+
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
+
+            double totalExpense = 0.0f;
+            double lastMonthExpense = 0.0f;
+            double currentMonthExpense = 0.0f;
+
+            foreach (Expense i in expenses)
+            {
+                totalExpense += i.Amount.Value;
+
+                if (i.Date.Value.Month == DateTime.Today.Month)
+                    currentMonthExpense += i.Amount.Value;
+
+                else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                    lastMonthExpense += i.Amount.Value;
+            }
+
+            this.currentMonthExpenseAllPageTXT.Text = currentMonthExpense.ToString();
+            this.lastMonthExpenseALLPageTXT.Text = lastMonthExpense.ToString();
+            this.allExpenseAllPageTXT.Text = totalExpense.ToString();
+        }
+
+        void OnFilterExpenseAllDataBTNClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        void OnFilterIncomeAllDataBTNClick(object sender, RoutedEventArgs e)
+        {
+
         }
 
         #endregion
