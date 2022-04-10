@@ -142,6 +142,8 @@ namespace BudgetTracApp
 
             this.IncomeAllDataPageNoFilterGrid.Visibility = Visibility.Visible;
             this.ExpenseAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
+            this.IncomeAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
+            this.ExpenseAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
 
             BudgetTracDBEntities db = new BudgetTracDBEntities();
 
@@ -838,6 +840,8 @@ namespace BudgetTracApp
         {
             this.IncomeAllDataPageNoFilterGrid.Visibility = Visibility.Visible;
             this.ExpenseAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
+            this.IncomeAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
+            this.ExpenseAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
 
             BudgetTracDBEntities db = new BudgetTracDBEntities();
 
@@ -867,6 +871,8 @@ namespace BudgetTracApp
         {
             this.IncomeAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
             this.ExpenseAllDataPageNoFilterGrid.Visibility = Visibility.Visible;
+            this.IncomeAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
+            this.ExpenseAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
 
             BudgetTracDBEntities db = new BudgetTracDBEntities();
 
@@ -895,61 +901,41 @@ namespace BudgetTracApp
         void OnFilterExpenseAllDataBTNClick(object sender, RoutedEventArgs e)
         {
             this.IncomeAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
+            this.ExpenseAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
             this.IncomeAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
             this.ExpenseAllDataPageFilterdGrid.Visibility = Visibility.Visible;
-            this.ExpenseAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
-
-
 
             BudgetTracDBEntities db = new BudgetTracDBEntities();
 
-
-
             var expenses = from i in db.Expenses orderby i.Date descending select i;
-
-
 
             double currentMonthUtility = 0.0f;
             double lastMonthUtility = 0.0f;
             double allMonthUtility = 0.0f;
 
-
-
             double currentMonthGrocery = 0.0f;
             double lastMonthGrocery = 0.0f;
             double allMonthGrocery = 0.0f;
-
-
 
             double currentMonthFood = 0.0f;
             double lastMonthFood = 0.0f;
             double allMonthFood = 0.0f;
 
-
-
             double currentMonthOther = 0.0f;
             double lastMonthOther = 0.0f;
             double allMonthOther = 0.0f;
-
-
 
             double currentMonthEnt = 0.0f;
             double lastMonthEnt = 0.0f;
             double allMonthEnt = 0.0f;
 
-
-
             double currentMonthStudy = 0.0f;
             double lastMonthStudy = 0.0f;
             double allMonthStudy = 0.0f;
 
-
-
             double currentMonthTran = 0.0f;
             double lastMonthTran = 0.0f;
             double allMonthTran = 0.0f;
-
-
 
             foreach (Expense i in expenses)
             {
@@ -957,175 +943,109 @@ namespace BudgetTracApp
                 {
                     allMonthUtility += i.Amount.Value;
 
-
-
                     if (i.Date.Value.Month == DateTime.Today.Month)
                         currentMonthUtility += i.Amount.Value;
-
-
 
                     else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
                         lastMonthUtility += i.Amount.Value;
 
-
-
                 }
-
-
 
                 else if (i.Type == "Grocery")
                 {
                     allMonthGrocery += i.Amount.Value;
 
-
-
                     if (i.Date.Value.Month == DateTime.Today.Month)
                         currentMonthGrocery += i.Amount.Value;
-
-
 
                     else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
                         lastMonthGrocery += i.Amount.Value;
 
-
-
                 }
-
-
 
                 else if (i.Type == "Food")
                 {
                     allMonthFood += i.Amount.Value;
 
-
-
                     if (i.Date.Value.Month == DateTime.Today.Month)
                         currentMonthFood += i.Amount.Value;
 
-
-
                     else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
                         lastMonthFood += i.Amount.Value;
-
-
 
                 }
                 else if (i.Type == "Study")
                 {
                     allMonthStudy += i.Amount.Value;
 
-
-
                     if (i.Date.Value.Month == DateTime.Today.Month)
                         currentMonthStudy += i.Amount.Value;
-
-
 
                     else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
                         lastMonthStudy += i.Amount.Value;
 
-
-
                 }
-
-
 
                 else if (i.Type == "Entertainment")
                 {
                     allMonthEnt += i.Amount.Value;
 
-
-
                     if (i.Date.Value.Month == DateTime.Today.Month)
                         currentMonthEnt += i.Amount.Value;
-
-
 
                     else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
                         lastMonthEnt += i.Amount.Value;
 
-
-
                 }
-
-
 
                 else if (i.Type == "Transportation")
                 {
                     allMonthTran += i.Amount.Value;
 
-
-
                     if (i.Date.Value.Month == DateTime.Today.Month)
                         currentMonthTran += i.Amount.Value;
-
-
 
                     else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
                         lastMonthTran += i.Amount.Value;
 
-
-
                 }
-
-
 
                 else if (i.Type == "Other")
                 {
                     allMonthOther += i.Amount.Value;
 
-
-
                     if (i.Date.Value.Month == DateTime.Today.Month)
                         currentMonthOther += i.Amount.Value;
-
-
 
                     else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
                         lastMonthOther += i.Amount.Value;
 
-
-
                 }
             }
-
-
 
             this.currentMonthuitlityFilterTXT.Text = currentMonthUtility.ToString();
             this.lastMonthUtilityFilterTXT.Text = lastMonthUtility.ToString();
             this.allUtilityFilterTXT.Text = allMonthUtility.ToString();
 
-
-
             this.currentMonthGroceryFilterTXT.Text = currentMonthGrocery.ToString();
             this.lastMonthGroceryFilterTXT.Text = lastMonthGrocery.ToString();
             this.allGroceryFilterTXT.Text = allMonthGrocery.ToString();
-
-
 
             this.currentMonthFoodFilterTXT.Text = currentMonthFood.ToString();
             this.lastMonthFoodFilterTXT.Text = lastMonthFood.ToString();
             this.allFoodFilterTXT.Text = allMonthFood.ToString();
 
-
-
             this.currentMonthEntertainmentFilterTXT.Text = currentMonthEnt.ToString();
             this.lastMonthEntertainmentFilterTXT.Text = lastMonthEnt.ToString();
             this.allEntertainmentFilterTXT.Text = allMonthEnt.ToString();
-
-
 
             this.currentMonthStudyFilterTXT.Text = currentMonthStudy.ToString();
             this.lastMonthStudyFilterTXT.Text = lastMonthStudy.ToString();
             this.allStudyFilterTXT.Text = allMonthStudy.ToString();
 
-
-
             this.currentMonthTransportationFilterTXT.Text = currentMonthTran.ToString();
             this.lastMonthTransportationFilterTXT.Text = lastMonthTran.ToString();
             this.allTransportationFilterTXT.Text = allMonthTran.ToString();
-
-
 
             this.currentMonthOtherFilterTXT.Text = currentMonthOther.ToString();
             this.lastMonthOtherFilterTXT.Text = lastMonthOther.ToString();
@@ -1134,7 +1054,10 @@ namespace BudgetTracApp
 
         void OnFilterIncomeAllDataBTNClick(object sender, RoutedEventArgs e)
         {
-
+            this.IncomeAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
+            this.ExpenseAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
+            this.IncomeAllDataPageFilterdGrid.Visibility = Visibility.Visible;
+            this.ExpenseAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
         }
 
         #endregion
