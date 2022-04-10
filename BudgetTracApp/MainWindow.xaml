@@ -15,19 +15,8 @@
             <Button Grid.Column="4" x:Name="AllBTN" Click="OnAllBTNClick" Content="All" VerticalAlignment="Center" Height="40" Width="160" Margin="640,5,0,5"/>
         </Grid>
 
-        <Grid x:Name="HomeGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom" Visibility="Visible">
+        <Grid x:Name="HomeGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom" Visibility="Hidden">
             <TextBlock Grid.Row="0" x:Name="HomeHeaderTXT" HorizontalAlignment="Center" Height="40" TextWrapping="Wrap" Text="Home Page" VerticalAlignment="Top" Width="250" TextAlignment="Center" FontSize="20" FontWeight="Bold"/>
-            <Grid Grid.Row="1" x:Name="HomePageGrid" HorizontalAlignment="Center" Height="320" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5">
-                <TextBlock Text="Current Month Income" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="10,15,0,0"></TextBlock>
-                <TextBlock Text="Current Month Expense" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="10,50,0,0"></TextBlock>
-                <TextBlock Text="Current Month Saving" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="10,85,0,0"></TextBlock>
-
-
-
-                <TextBlock x:Name="currentMonthIncomeTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="180,15,0,0"></TextBlock>
-                <TextBlock x:Name="currentMonthExpenseTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="180,50,0,0"></TextBlock>
-                <TextBlock x:Name="currentMonthSavingTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="180,85,0,0"></TextBlock>
-            </Grid>
         </Grid>
 
         <Grid x:Name="IncomeGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom" Visibility="Hidden">
