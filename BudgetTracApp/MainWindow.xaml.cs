@@ -89,6 +89,55 @@ namespace BudgetTracApp
             this.ExpenesGrid.Visibility = Visibility.Hidden;
             this.ReminderGrid.Visibility = Visibility.Hidden;
             this.AllGrid.Visibility = Visibility.Hidden;
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+
+
+            var incomes = from i in db.Incomes select i;
+
+
+
+            double currentMonthIncome = 0.0f;
+
+
+
+            foreach (Income income in incomes)
+            {
+                if (income.Date.Value.Month == DateTime.Today.Month)
+                {
+                    currentMonthIncome += income.Amount.Value;
+                }
+            }
+
+
+
+            this.currentMonthIncomeTXT.Text = currentMonthIncome.ToString();
+
+
+
+            var expenses = from i in db.Expenses select i;
+
+
+
+            double currentMothExpense = 0.0f;
+
+
+
+            foreach (Expense expense in expenses)
+            {
+                if (expense.Date.Value.Month == DateTime.Today.Month)
+                {
+                    currentMothExpense += expense.Amount.Value;
+                }
+            }
+
+
+
+            this.currentMonthExpenseTXT.Text = currentMothExpense.ToString();
+
+
+
+            this.currentMonthSavingTXT.Text = (currentMonthIncome - currentMothExpense).ToString();
         }
 
         void OnIncomeBTNClick(object sender, RoutedEventArgs e)
