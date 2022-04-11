@@ -141,6 +141,8 @@ namespace BudgetTracApp
 
 
             this.currentMonthSavingTXT.Text = (currentMonthIncome - currentMothExpense).ToString();
+
+            var reminders = from i in db.Reminders where i.Date.Value.Month == DateTime.Today.Month select i;
         }
 
         void OnIncomeBTNClick(object sender, RoutedEventArgs e)
