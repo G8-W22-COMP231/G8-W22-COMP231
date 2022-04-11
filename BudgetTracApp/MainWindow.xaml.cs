@@ -897,7 +897,7 @@ namespace BudgetTracApp
             this.lastMonthExpenseALLPageTXT.Text = lastMonthExpense.ToString();
             this.allExpenseAllPageTXT.Text = totalExpense.ToString();
         }
-
+        #filter option added
         void OnFilterExpenseAllDataBTNClick(object sender, RoutedEventArgs e)
         {
             this.IncomeAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
