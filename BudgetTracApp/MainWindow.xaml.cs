@@ -1124,16 +1124,23 @@ namespace BudgetTracApp
             this.allOtherFilterTXT.Text = allMonthOther.ToString();
         }
 
+     
+        # filter options in income page
+
         void OnFilterIncomeAllDataBTNClick(object sender, RoutedEventArgs e)
-        {
+            {
             this.IncomeAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
             this.IncomeAllDataPageFilterdGrid.Visibility = Visibility.Visible;
             this.ExpenseAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
             this.ExpenseAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
 
+
             BudgetTracDBEntities db = new BudgetTracDBEntities();
 
+
+
             var incomes = from i in db.Incomes orderby i.Date descending select i;
+
 
             double currentMonthIncome = 0.0f;
             double lastMonthIncome = 0.0f;
@@ -1147,54 +1154,82 @@ namespace BudgetTracApp
 
             foreach (Income i in incomes)
             {
-                if (i.Type == "Income")
-                {
-                    allMonthIncome += i.Amount.Value;
+            if (i.Type == "Income")
+            {
+            allMonthIncome += i.Amount.Value;
 
-                    if (i.Date.Value.Month == DateTime.Today.Month)
-                        currentMonthIncome += i.Amount.Value;
 
-                    else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
-                        lastMonthIncome += i.Amount.Value;
 
-                }
+            if (i.Date.Value.Month == DateTime.Today.Month)
+            currentMonthIncome += i.Amount.Value;
 
-                else if (i.Type == "Saving")
-                {
-                    allMonthSaving += i.Amount.Value;
 
-                    if (i.Date.Value.Month == DateTime.Today.Month)
-                        currentMonthSaving += i.Amount.Value;
 
-                    else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
-                        lastMonthSaving += i.Amount.Value;
+            else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+            lastMonthIncome += i.Amount.Value;
 
-                }
 
-                else if (i.Type == "Gift")
-                {
-                    allMonthGift += i.Amount.Value;
 
-                    if (i.Date.Value.Month == DateTime.Today.Month)
-                        currentMonthGift += i.Amount.Value;
-
-                    else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
-                        lastMonthGift += i.Amount.Value;
-
-                }
             }
 
-            this.currentMonthIncomeFilterTXT.Text = currentMonthIncome.ToString();
-            this.lastMonthIncomeFilterTXT.Text = lastMonthIncome.ToString();
-            this.allIncomeFilterTXT.Text = allMonthIncome.ToString();
 
-            this.currentMonthSavingFilterTXT.Text = currentMonthSaving.ToString();
-            this.lastMonthSavingFilterTXT.Text = lastMonthSaving.ToString();
-            this.allSavingFilterTXT.Text = allMonthSaving.ToString();
 
-            this.currentMonthGiftFilterTXT.Text = currentMonthGift.ToString();
-            this.lastMonthGiftFilterTXT.Text = lastMonthGift.ToString();
-            this.allGiftFilterTXT.Text = allMonthGift.ToString();
+            else if (i.Type == "Saving")
+            {
+            allMonthSaving += i.Amount.Value;
+
+
+
+            if (i.Date.Value.Month == DateTime.Today.Month)
+            currentMonthSaving += i.Amount.Value;
+
+
+
+            else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+            lastMonthSaving += i.Amount.Value;
+
+
+
+            }
+
+
+
+            else if (i.Type == "Gift")
+            {
+            allMonthGift += i.Amount.Value;
+
+
+
+            if (i.Date.Value.Month == DateTime.Today.Month)
+            currentMonthGift += i.Amount.Value;
+
+
+
+            else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+            lastMonthGift += i.Amount.Value;
+
+
+
+            }
+}
+
+
+
+        this.currentMonthIncomeFilterTXT.Text = currentMonthIncome.ToString();
+        this.lastMonthIncomeFilterTXT.Text = lastMonthIncome.ToString();
+        this.allIncomeFilterTXT.Text = allMonthIncome.ToString();
+
+
+
+        this.currentMonthSavingFilterTXT.Text = currentMonthSaving.ToString();
+        this.lastMonthSavingFilterTXT.Text = lastMonthSaving.ToString();
+        this.allSavingFilterTXT.Text = allMonthSaving.ToString();
+
+
+
+        this.currentMonthGiftFilterTXT.Text = currentMonthGift.ToString();
+        this.lastMonthGiftFilterTXT.Text = lastMonthGift.ToString();
+        this.allGiftFilterTXT.Text = allMonthGift.ToString();
         }
 
         #endregion
