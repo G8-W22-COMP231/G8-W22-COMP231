@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -34,15 +35,17 @@ namespace BudgetTracApp
         public DateTime ReminderDate = DateTime.Today;
         public int ReminderUpdateIndex = 0;
 
+        private List<DateTime> currentMonthReminders = new List<DateTime>();
+
         public MainWindow()
         {
             InitializeComponent();
 
             BudgetTracDBEntities db = new BudgetTracDBEntities();
 
-            var incomes = from i in db.Incomes select i;
-            var reminders = from i in db.Reminders select i;
-            var expenses = from i in db.Expenses select i;
+            var incomes = from i in db.Incomes orderby i.Date descending select i;
+            var reminders = from i in db.Reminders orderby i.Date ascending select i;
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
 
             /*
             foreach (Income item in incomes)
@@ -81,6 +84,7 @@ namespace BudgetTracApp
             this.ReminderList.ItemsSource = reminders.ToList();
         }
 
+        #region NAVBAR REGOIN
         void OnHomeBTNClick(object sender, RoutedEventArgs e)
         {
             this.HomeGrid.Visibility = Visibility.Visible;
@@ -88,6 +92,57 @@ namespace BudgetTracApp
             this.ExpenesGrid.Visibility = Visibility.Hidden;
             this.ReminderGrid.Visibility = Visibility.Hidden;
             this.AllGrid.Visibility = Visibility.Hidden;
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+
+
+            var incomes = from i in db.Incomes select i;
+
+
+
+            double currentMonthIncome = 0.0f;
+
+
+
+            foreach (Income income in incomes)
+            {
+                if (income.Date.Value.Month == DateTime.Today.Month)
+                {
+                    currentMonthIncome += income.Amount.Value;
+                }
+            }
+
+
+
+            this.currentMonthIncomeTXT.Text = currentMonthIncome.ToString();
+
+
+
+            var expenses = from i in db.Expenses select i;
+
+
+
+            double currentMothExpense = 0.0f;
+
+
+
+            foreach (Expense expense in expenses)
+            {
+                if (expense.Date.Value.Month == DateTime.Today.Month)
+                {
+                    currentMothExpense += expense.Amount.Value;
+                }
+            }
+
+
+
+            this.currentMonthExpenseTXT.Text = currentMothExpense.ToString();
+
+
+
+            this.currentMonthSavingTXT.Text = (currentMonthIncome - currentMothExpense).ToString();
+
+            var reminders = from i in db.Reminders where i.Date.Value.Month == DateTime.Today.Month select i;
         }
 
         void OnIncomeBTNClick(object sender, RoutedEventArgs e)
@@ -196,7 +251,56 @@ namespace BudgetTracApp
             this.ExpenesGrid.Visibility = Visibility.Hidden;
             this.ReminderGrid.Visibility = Visibility.Hidden;
             this.AllGrid.Visibility = Visibility.Visible;
+
+            this.IncomeAllDataPageNoFilterGrid.Visibility = Visibility.Visible;
+            this.ExpenseAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
+            this.IncomeAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
+            this.ExpenseAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
+
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+            var incomes = from i in db.Incomes orderby i.Date descending select i;
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
+
+            double totalIncome = 0.0f;
+            double lastMonthIncome = 0.0f;
+            double currentMonthIncome = 0.0f;
+
+            foreach(Income i in incomes)
+            {
+                totalIncome += i.Amount.Value;
+
+                if (i.Date.Value.Month == DateTime.Today.Month)
+                    currentMonthIncome += i.Amount.Value;
+
+                else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                    lastMonthIncome += i.Amount.Value;
+            }
+
+            double totalExpensee = 0.0f;
+            double lastMonthExpense = 0.0f;
+            double currentMonthExpense = 0.0f;
+
+            foreach (Expense i in expenses)
+            {
+                totalExpensee += i.Amount.Value;
+
+                if (i.Date.Value.Month == DateTime.Today.Month)
+                    currentMonthExpense += i.Amount.Value;
+
+                else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                    lastMonthExpense += i.Amount.Value;
+            }
+
+            this.currentMonthIncomeAllPageTXT.Text = currentMonthIncome.ToString();
+            this.lastMonthIncomeALLPageTXT.Text = lastMonthIncome.ToString();
+            this.allIncomeAllPageTXT.Text = totalIncome.ToString();
         }
+
+        #endregion
+
+
+        #region INCOME PAGE
 
         void OnAddIncomeBTNClick(object sender, RoutedEventArgs e)
         {
@@ -204,6 +308,9 @@ namespace BudgetTracApp
 
             this.IncomeRadioYesBtn.IsChecked = true;
             this.IncomeTypeCMB.SelectedIndex = 0;
+
+            this.IncomeDateCalander.DisplayDateStart = DateTime.MinValue;
+            this.IncomeDateCalander.DisplayDateEnd = DateTime.Today;
 
             this.IncomeListPageGrid.Visibility = Visibility.Hidden;
             this.AddIncomePageGrid.Visibility = Visibility.Visible;
@@ -213,6 +320,9 @@ namespace BudgetTracApp
         void OnEditIncomeBTNClick(object sender, RoutedEventArgs e)
         {
             this.IncomeHeaderTXT.Text = "Edit Income Page";
+
+            this.IncomeEditDateCalander.DisplayDateStart = DateTime.MinValue;
+            this.IncomeEditDateCalander.DisplayDateEnd = DateTime.Today;
 
             this.IncomeListPageGrid.Visibility = Visibility.Hidden;
             this.AddIncomePageGrid.Visibility = Visibility.Hidden;
@@ -235,18 +345,7 @@ namespace BudgetTracApp
                 db.SaveChanges();
             }
 
-            this.IncomeList.ItemsSource = db.Incomes.ToList();
 
-            var incomes = from i in db.Incomes where i.Date.Value.Month == DateTime.Today.Month select i;
-            double currentMonth = 0.0f;
-
-            foreach (Income income in incomes)
-            {
-                currentMonth += income.Amount.Value;
-
-            }
-
-            this.CurrentMonthIncomeTXT.Text = "Current Month Income : " + currentMonth.ToString();
         }
 
         void OnAddIncomeConfirmBTNClick(object sender, RoutedEventArgs e)
@@ -283,18 +382,7 @@ namespace BudgetTracApp
             this.IncomeTypeCMB.SelectedIndex = 0;
             this.IncomeAmountTXT.Clear();
 
-            this.IncomeList.ItemsSource = db.Incomes.ToList();
 
-            var incomes = from i in db.Incomes where i.Date.Value.Month == DateTime.Today.Month select i;
-            double currentMonth = 0.0f;
-
-            foreach (Income income in incomes)
-            {
-                currentMonth += income.Amount.Value;
-
-            }
-
-            this.CurrentMonthIncomeTXT.Text = "Current Month Income : " + currentMonth.ToString();
         }
 
         void OnEditIncomeConfirmBTNClick(object sender, RoutedEventArgs e)
@@ -336,19 +424,7 @@ namespace BudgetTracApp
             this.IncomeEditTypeCMB.SelectedIndex = 0;
             this.IncomeEditTaxAmountTXT.Clear();
 
-            this.IncomeList.ItemsSource = db.Incomes.ToList();
-            
 
-            var incomes = from i in db.Incomes where i.Date.Value.Month == DateTime.Today.Month select i;
-            double currentMonth = 0.0f;
-
-            foreach (Income income in incomes)
-            {
-                currentMonth += income.Amount.Value;
-
-            }
-
-            this.CurrentMonthIncomeTXT.Text = "Current Month Income : " + currentMonth.ToString();
         }
 
         void OnCancelIncomeBTNClick(object sender, RoutedEventArgs e)
@@ -367,7 +443,9 @@ namespace BudgetTracApp
             this.IncomeTypeCMB.SelectedIndex = 0;
             this.IncomeAmountTXT.Clear();
 
-            this.IncomeList.ItemsSource = db.Incomes.ToList();
+            var incomes = from i in db.Incomes orderby i.Date descending select i;
+
+            this.IncomeList.ItemsSource = incomes.ToList();
         }
 
         void IncomeOnRadioButtonChange(object sender, RoutedEventArgs e)
@@ -459,11 +537,18 @@ namespace BudgetTracApp
             }
         }
 
+        #endregion
+
+        #region EXPENSE PAGE
+
         void OnAddExpenseBTNClick(object sender, RoutedEventArgs e)
         {
             this.ExpenseHeaderTXT.Text = "Add Expense Page";
 
             this.ExpenseTypeCMB.SelectedIndex = 0;
+
+            this.ExpenseDateCalander.DisplayDateStart = DateTime.MinValue;
+            this.ExpenseDateCalander.DisplayDateEnd = DateTime.Today;
 
             this.ExpenseListPageGrid.Visibility = Visibility.Hidden;
             this.AddExpensePageGrid.Visibility = Visibility.Visible;
@@ -473,6 +558,9 @@ namespace BudgetTracApp
         void OnEditExpenseBTNClick(object sender, RoutedEventArgs e)
         {
             this.ExpenseHeaderTXT.Text = "Edit Expense Page";
+
+            this.ExpenseEditDateCalander.DisplayDateStart = DateTime.MinValue;
+            this.ExpenseEditDateCalander.DisplayDateEnd = DateTime.Today;
 
             this.ExpenseListPageGrid.Visibility = Visibility.Hidden;
             this.AddExpensePageGrid.Visibility = Visibility.Hidden;
@@ -495,7 +583,8 @@ namespace BudgetTracApp
                 db.SaveChanges();
             }
 
-            this.ExpenseList.ItemsSource = db.Expenses.ToList();
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
+            this.ExpenseList.ItemsSource = expenses.ToList();
         }
 
         void OnAddExpenseConfirmBTNClick(object sender, RoutedEventArgs e)
@@ -528,7 +617,8 @@ namespace BudgetTracApp
             this.ExpenseAmountTXT.Clear();
             this.ExpenseTypeCMB.SelectedIndex = 0;
 
-            this.ExpenseList.ItemsSource = db.Expenses.ToList();
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
+            this.ExpenseList.ItemsSource = expenses.ToList();
         }
 
         void OnEditExpenseConfirmBTNClick(object sender, RoutedEventArgs e)
@@ -566,7 +656,8 @@ namespace BudgetTracApp
             this.ExpenseAmountTXT.Clear();
             this.ExpenseTypeCMB.SelectedIndex = 0;
 
-            this.ExpenseList.ItemsSource = db.Expenses.ToList();
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
+            this.ExpenseList.ItemsSource = expenses.ToList();
         }
 
         void OnCancelExpenseBTNClick(object sender, RoutedEventArgs e)
@@ -583,7 +674,8 @@ namespace BudgetTracApp
             this.ExpenseAmountTXT.Clear();
             this.ExpenseTypeCMB.SelectedIndex = 0;
 
-            this.ExpenseList.ItemsSource = db.Expenses.ToList();
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
+            this.ExpenseList.ItemsSource = expenses.ToList();
         }
 
         void OnExpenseEditTypeSelectionChange(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -646,11 +738,18 @@ namespace BudgetTracApp
             }
         }
 
+        #endregion
+
+        #region REMINDER PAGE
+
         void OnAddReminderBTNClick(object sender, RoutedEventArgs e)
         {
             this.ReminderHeaderTXT.Text = "Add Reminder Page";
 
             this.ReminderTypeCMB.SelectedIndex = 0;
+
+            this.ReminderDateCalander.DisplayDateStart = DateTime.Today.AddDays(+1);
+            this.ReminderDateCalander.DisplayDateEnd = DateTime.MaxValue;
 
             this.ReminderListPageGrid.Visibility = Visibility.Hidden;
             this.AddReminderPageGrid.Visibility = Visibility.Visible;
@@ -660,6 +759,9 @@ namespace BudgetTracApp
         void OnEditReminderBTNClick(object sender, RoutedEventArgs e)
         {
             this.ReminderHeaderTXT.Text = "Edit Reminder Page";
+
+            this.ReminderEditDateCalander.DisplayDateStart = DateTime.Today.AddDays(+1);
+            this.ReminderEditDateCalander.DisplayDateEnd = DateTime.MaxValue;
 
             this.ReminderListPageGrid.Visibility = Visibility.Hidden;
             this.AddReminderPageGrid.Visibility = Visibility.Hidden;
@@ -682,7 +784,8 @@ namespace BudgetTracApp
                 db.SaveChanges();
             }
 
-            this.ReminderList.ItemsSource = db.Reminders.ToList();
+            var reminders = from i in db.Reminders orderby i.Date ascending select i;
+            this.ReminderList.ItemsSource = reminders.ToList();
         }
 
         void OnAddReminderConfirmBTNClick(object sender, RoutedEventArgs e)
@@ -715,7 +818,8 @@ namespace BudgetTracApp
             this.ReminderAmountTXT.Clear();
             this.ReminderTypeCMB.SelectedIndex = 0;
 
-            this.ReminderList.ItemsSource = db.Reminders.ToList();
+            var reminders = from i in db.Reminders orderby i.Date ascending select i;
+            this.ReminderList.ItemsSource = reminders.ToList();
         }
 
         void OnEditReminderConfirmBTNClick(object sender, RoutedEventArgs e)
@@ -753,7 +857,8 @@ namespace BudgetTracApp
             this.ReminderEditAmountTXT.Clear();
             this.ReminderEditTypeCMB.SelectedIndex = 0;
 
-            this.ReminderList.ItemsSource = db.Reminders.ToList();
+            var reminders = from i in db.Reminders orderby i.Date ascending select i;
+            this.ReminderList.ItemsSource = reminders.ToList();
         }
 
         void OnCancelReminderBTNClick(object sender, RoutedEventArgs e)
@@ -770,7 +875,8 @@ namespace BudgetTracApp
             this.ReminderAmountTXT.Clear();
             this.ReminderTypeCMB.SelectedIndex = 0;
 
-            this.ReminderList.ItemsSource = db.Reminders.ToList();
+            var reminders = from i in db.Reminders orderby i.Date ascending select i;
+            this.ReminderList.ItemsSource = reminders.ToList();
         }
 
         void OnReminderEditTypeSelectionChange(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -832,5 +938,299 @@ namespace BudgetTracApp
                 this.ReminderUpdateIndex = i.ID;
             }
         }
+
+        #endregion
+
+        #region All DATA PAGE
+        void OnIncomeAllDataBTNClick(object sender, RoutedEventArgs e)
+        {
+            this.IncomeAllDataPageNoFilterGrid.Visibility = Visibility.Visible;
+            this.ExpenseAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
+            this.IncomeAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
+            this.ExpenseAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
+
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+            var incomes = from i in db.Incomes orderby i.Date descending select i;
+
+            double totalIncome = 0.0f;
+            double lastMonthIncome = 0.0f;
+            double currentMonthIncome = 0.0f;
+
+            foreach (Income i in incomes)
+            {
+                totalIncome += i.Amount.Value;
+
+                if (i.Date.Value.Month == DateTime.Today.Month)
+                    currentMonthIncome += i.Amount.Value;
+
+                else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                    lastMonthIncome += i.Amount.Value;
+            }
+
+            this.currentMonthIncomeAllPageTXT.Text = currentMonthIncome.ToString();
+            this.lastMonthIncomeALLPageTXT.Text = lastMonthIncome.ToString();
+            this.allIncomeAllPageTXT.Text = totalIncome.ToString();
+        }
+
+        void OnExpenseAllDataBTNClick(object sender, RoutedEventArgs e)
+        {
+            this.IncomeAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
+            this.ExpenseAllDataPageNoFilterGrid.Visibility = Visibility.Visible;
+            this.IncomeAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
+            this.ExpenseAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
+
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
+
+            double totalExpense = 0.0f;
+            double lastMonthExpense = 0.0f;
+            double currentMonthExpense = 0.0f;
+
+            foreach (Expense i in expenses)
+            {
+                totalExpense += i.Amount.Value;
+
+                if (i.Date.Value.Month == DateTime.Today.Month)
+                    currentMonthExpense += i.Amount.Value;
+
+                else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                    lastMonthExpense += i.Amount.Value;
+            }
+
+            this.currentMonthExpenseAllPageTXT.Text = currentMonthExpense.ToString();
+            this.lastMonthExpenseALLPageTXT.Text = lastMonthExpense.ToString();
+            this.allExpenseAllPageTXT.Text = totalExpense.ToString();
+        }
+
+        void OnFilterExpenseAllDataBTNClick(object sender, RoutedEventArgs e)
+        {
+            this.IncomeAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
+            this.ExpenseAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
+            this.IncomeAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
+            this.ExpenseAllDataPageFilterdGrid.Visibility = Visibility.Visible;
+
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
+
+            double currentMonthUtility = 0.0f;
+            double lastMonthUtility = 0.0f;
+            double allMonthUtility = 0.0f;
+
+            double currentMonthGrocery = 0.0f;
+            double lastMonthGrocery = 0.0f;
+            double allMonthGrocery = 0.0f;
+
+            double currentMonthFood = 0.0f;
+            double lastMonthFood = 0.0f;
+            double allMonthFood = 0.0f;
+
+            double currentMonthOther = 0.0f;
+            double lastMonthOther = 0.0f;
+            double allMonthOther = 0.0f;
+
+            double currentMonthEnt = 0.0f;
+            double lastMonthEnt = 0.0f;
+            double allMonthEnt = 0.0f;
+
+            double currentMonthStudy = 0.0f;
+            double lastMonthStudy = 0.0f;
+            double allMonthStudy = 0.0f;
+
+            double currentMonthTran = 0.0f;
+            double lastMonthTran = 0.0f;
+            double allMonthTran = 0.0f;
+
+            foreach (Expense i in expenses)
+            {
+                if (i.Type == "Utility")
+                {
+                    allMonthUtility += i.Amount.Value;
+
+                    if (i.Date.Value.Month == DateTime.Today.Month)
+                        currentMonthUtility += i.Amount.Value;
+
+                    else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                        lastMonthUtility += i.Amount.Value;
+
+                }
+
+                else if (i.Type == "Grocery")
+                {
+                    allMonthGrocery += i.Amount.Value;
+
+                    if (i.Date.Value.Month == DateTime.Today.Month)
+                        currentMonthGrocery += i.Amount.Value;
+
+                    else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                        lastMonthGrocery += i.Amount.Value;
+
+                }
+
+                else if (i.Type == "Food")
+                {
+                    allMonthFood += i.Amount.Value;
+
+                    if (i.Date.Value.Month == DateTime.Today.Month)
+                        currentMonthFood += i.Amount.Value;
+
+                    else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                        lastMonthFood += i.Amount.Value;
+
+                }
+                else if (i.Type == "Study")
+                {
+                    allMonthStudy += i.Amount.Value;
+
+                    if (i.Date.Value.Month == DateTime.Today.Month)
+                        currentMonthStudy += i.Amount.Value;
+
+                    else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                        lastMonthStudy += i.Amount.Value;
+
+                }
+
+                else if (i.Type == "Entertainment")
+                {
+                    allMonthEnt += i.Amount.Value;
+
+                    if (i.Date.Value.Month == DateTime.Today.Month)
+                        currentMonthEnt += i.Amount.Value;
+
+                    else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                        lastMonthEnt += i.Amount.Value;
+
+                }
+
+                else if (i.Type == "Transportation")
+                {
+                    allMonthTran += i.Amount.Value;
+
+                    if (i.Date.Value.Month == DateTime.Today.Month)
+                        currentMonthTran += i.Amount.Value;
+
+                    else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                        lastMonthTran += i.Amount.Value;
+
+                }
+
+                else if (i.Type == "Other")
+                {
+                    allMonthOther += i.Amount.Value;
+
+                    if (i.Date.Value.Month == DateTime.Today.Month)
+                        currentMonthOther += i.Amount.Value;
+
+                    else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                        lastMonthOther += i.Amount.Value;
+
+                }
+            }
+
+            this.currentMonthuitlityFilterTXT.Text = currentMonthUtility.ToString();
+            this.lastMonthUtilityFilterTXT.Text = lastMonthUtility.ToString();
+            this.allUtilityFilterTXT.Text = allMonthUtility.ToString();
+
+            this.currentMonthGroceryFilterTXT.Text = currentMonthGrocery.ToString();
+            this.lastMonthGroceryFilterTXT.Text = lastMonthGrocery.ToString();
+            this.allGroceryFilterTXT.Text = allMonthGrocery.ToString();
+
+            this.currentMonthFoodFilterTXT.Text = currentMonthFood.ToString();
+            this.lastMonthFoodFilterTXT.Text = lastMonthFood.ToString();
+            this.allFoodFilterTXT.Text = allMonthFood.ToString();
+
+            this.currentMonthEntertainmentFilterTXT.Text = currentMonthEnt.ToString();
+            this.lastMonthEntertainmentFilterTXT.Text = lastMonthEnt.ToString();
+            this.allEntertainmentFilterTXT.Text = allMonthEnt.ToString();
+
+            this.currentMonthStudyFilterTXT.Text = currentMonthStudy.ToString();
+            this.lastMonthStudyFilterTXT.Text = lastMonthStudy.ToString();
+            this.allStudyFilterTXT.Text = allMonthStudy.ToString();
+
+            this.currentMonthTransportationFilterTXT.Text = currentMonthTran.ToString();
+            this.lastMonthTransportationFilterTXT.Text = lastMonthTran.ToString();
+            this.allTransportationFilterTXT.Text = allMonthTran.ToString();
+
+            this.currentMonthOtherFilterTXT.Text = currentMonthOther.ToString();
+            this.lastMonthOtherFilterTXT.Text = lastMonthOther.ToString();
+            this.allOtherFilterTXT.Text = allMonthOther.ToString();
+        }
+
+        void OnFilterIncomeAllDataBTNClick(object sender, RoutedEventArgs e)
+        {
+            this.IncomeAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
+            this.IncomeAllDataPageFilterdGrid.Visibility = Visibility.Visible;
+            this.ExpenseAllDataPageFilterdGrid.Visibility = Visibility.Hidden;
+            this.ExpenseAllDataPageNoFilterGrid.Visibility = Visibility.Hidden;
+
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+            var incomes = from i in db.Incomes orderby i.Date descending select i;
+
+            double currentMonthIncome = 0.0f;
+            double lastMonthIncome = 0.0f;
+            double allMonthIncome = 0.0f;
+            double currentMonthSaving = 0.0f;
+            double lastMonthSaving = 0.0f;
+            double allMonthSaving = 0.0f;
+            double currentMonthGift = 0.0f;
+            double lastMonthGift = 0.0f;
+            double allMonthGift = 0.0f;
+
+            foreach (Income i in incomes)
+            {
+                if (i.Type == "Income")
+                {
+                    allMonthIncome += i.Amount.Value;
+
+                    if (i.Date.Value.Month == DateTime.Today.Month)
+                        currentMonthIncome += i.Amount.Value;
+
+                    else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                        lastMonthIncome += i.Amount.Value;
+
+                }
+
+                else if (i.Type == "Saving")
+                {
+                    allMonthSaving += i.Amount.Value;
+
+                    if (i.Date.Value.Month == DateTime.Today.Month)
+                        currentMonthSaving += i.Amount.Value;
+
+                    else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                        lastMonthSaving += i.Amount.Value;
+
+                }
+
+                else if (i.Type == "Gift")
+                {
+                    allMonthGift += i.Amount.Value;
+
+                    if (i.Date.Value.Month == DateTime.Today.Month)
+                        currentMonthGift += i.Amount.Value;
+
+                    else if (i.Date.Value.Month == DateTime.Today.AddMonths(-1).Month)
+                        lastMonthGift += i.Amount.Value;
+
+                }
+            }
+
+            this.currentMonthIncomeFilterTXT.Text = currentMonthIncome.ToString();
+            this.lastMonthIncomeFilterTXT.Text = lastMonthIncome.ToString();
+            this.allIncomeFilterTXT.Text = allMonthIncome.ToString();
+
+            this.currentMonthSavingFilterTXT.Text = currentMonthSaving.ToString();
+            this.lastMonthSavingFilterTXT.Text = lastMonthSaving.ToString();
+            this.allSavingFilterTXT.Text = allMonthSaving.ToString();
+
+            this.currentMonthGiftFilterTXT.Text = currentMonthGift.ToString();
+            this.lastMonthGiftFilterTXT.Text = lastMonthGift.ToString();
+            this.allGiftFilterTXT.Text = allMonthGift.ToString();
+        }
+
+        #endregion
     }
 }
