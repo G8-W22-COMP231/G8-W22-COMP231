@@ -158,6 +158,24 @@ namespace BudgetTracApp
             this.IncomeListPageGrid.Visibility = Visibility.Visible;
             this.AddIncomePageGrid.Visibility = Visibility.Hidden;
             this.EditIncomePageGrid.Visibility = Visibility.Hidden;
+
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+            var incomes = from i in db.Incomes orderby i.Date descending select i;
+
+            double currentMonthIncome = 0.0f;
+
+
+
+            foreach (Income i in incomes)
+            {
+                if (i.Date.Value.Month == DateTime.Today.Month)
+                    currentMonthIncome += i.Amount.Value;
+            }
+
+
+
+            this.IncomePageCurrentMonthTXT.Text = "Current Month Income : " + currentMonthIncome.ToString();
         }
 
         void OnExpensBTNClick(object sender, RoutedEventArgs e)
