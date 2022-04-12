@@ -18,21 +18,31 @@
         <Grid x:Name="HomeGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom" Visibility="Visible">
             <TextBlock Grid.Row="0" x:Name="HomeHeaderTXT" HorizontalAlignment="Center" Height="40" TextWrapping="Wrap" Text="Home Page" VerticalAlignment="Top" Width="250" TextAlignment="Center" FontSize="20" FontWeight="Bold"/>
 
-            <Grid Grid.Row="1" x:Name="HomePageGrid" HorizontalAlignment="Center" Height="320" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5">
-                <TextBlock Text="Current Month Income" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="10,15,0,0"></TextBlock>
-                <TextBlock Text="Current Month Expense" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="10,50,0,0"></TextBlock>
-                <TextBlock Text="Current Month Saving" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="10,85,0,0"></TextBlock>
+
+			<Grid Grid.Row="1" x:Name="HomePageGrid" HorizontalAlignment="Center" Height="320" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5">
+				<TextBlock Text="Current Month Income" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="10,15,0,0"></TextBlock>
+				<TextBlock Text="Current Month Expense" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="10,50,0,0"></TextBlock>
+				<TextBlock Text="Current Month Saving" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="10,85,0,0"></TextBlock>
 
 
 
-                <TextBlock x:Name="currentMonthIncomeTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="180,15,0,0"></TextBlock>
-                <TextBlock x:Name="currentMonthExpenseTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="180,50,0,0"></TextBlock>
-                <TextBlock x:Name="currentMonthSavingTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="180,85,0,0"></TextBlock>
-            </Grid>
+				<TextBlock x:Name="currentMonthIncomeTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="180,15,0,0"></TextBlock>
+				<TextBlock x:Name="currentMonthExpenseTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="180,50,0,0"></TextBlock>
+				<TextBlock x:Name="currentMonthSavingTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="180,85,0,0"></TextBlock>
+
+
+
+				<Calendar x:Name="HomePageCalander" SelectionMode="None" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,90,0">
+				</Calendar>
+
+
+			</Grid>
+
         </Grid>
 
         <Grid x:Name="IncomeGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom" Visibility="Hidden">
             <TextBlock Grid.Row="0" x:Name="IncomeHeaderTXT" HorizontalAlignment="Center" Height="40" TextWrapping="Wrap" Text="Income Page" VerticalAlignment="Top" Width="250" TextAlignment="Center" FontSize="20" FontWeight="Bold"/>
+            <TextBlock Grid.Row="0" x:Name="IncomePageCurrentMonthTXT" HorizontalAlignment="Right" Height="40" TextWrapping="Wrap" Text="Current Month Income : " VerticalAlignment="Top" Width="250" TextAlignment="Center" FontSize="15" FontWeight="Bold" Padding="0, 5, 0,0"/>
             <Grid Grid.Row="1" x:Name="IncomeListPageGrid" HorizontalAlignment="Center" Height="320" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5">
                 <DataGrid x:Name="IncomeList" HorizontalAlignment="Center" ColumnWidth="*"  Height="275" VerticalAlignment="Top" Width="780" Margin="0,5,0,0" SelectionChanged="IncomeList_SelectionChanged" Visibility="Visible"></DataGrid>
                 <Button x:Name="AddIncomeBTM" Click="OnAddIncomeBTNClick" Content="Add Income" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30" Width="160" Margin="0,0,400,5"></Button>
@@ -104,6 +114,7 @@
 
         <Grid x:Name="ExpenesGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom" Visibility="Hidden">
             <TextBlock Grid.Row="0" x:Name="ExpenseHeaderTXT" HorizontalAlignment="Center" Height="40" TextWrapping="Wrap" Text="Expense Page" VerticalAlignment="Top" Width="250" TextAlignment="Center" FontSize="20" FontWeight="Bold"/>
+            <TextBlock Grid.Row="0" x:Name="ExpensePageCurrentMonthTXT" HorizontalAlignment="Right" Height="40" TextWrapping="Wrap" Text="Current Month Expense : " VerticalAlignment="Top" Width="250" TextAlignment="Center" FontSize="15" FontWeight="Bold" Padding="0, 5, 0,0"/>
             <Grid Grid.Row="1" x:Name="ExpenseListPageGrid" HorizontalAlignment="Center" Height="320" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5" Visibility="Hidden">
                 <DataGrid x:Name="ExpenseList" HorizontalAlignment="Center" ColumnWidth="*" Height="275" VerticalAlignment="Top" Width="780" Margin="0,5,0,0" SelectionChanged="ExpenseList_SelectionChanged"></DataGrid>
                 <Button x:Name="AddExpenseBTM" Click="OnAddExpenseBTNClick" Content="Add Expense" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30" Width="160" Margin="0,0,400,5"></Button>

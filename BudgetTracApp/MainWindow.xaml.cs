@@ -92,6 +92,93 @@ namespace BudgetTracApp
             this.ExpenesGrid.Visibility = Visibility.Hidden;
             this.ReminderGrid.Visibility = Visibility.Hidden;
             this.AllGrid.Visibility = Visibility.Hidden;
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+
+
+            var incomes = from i in db.Incomes select i;
+
+
+
+            double currentMonthIncome = 0.0f;
+
+
+
+            foreach (Income income in incomes)
+            {
+                if (income.Date.Value.Month == DateTime.Today.Month)
+                {
+                    currentMonthIncome += income.Amount.Value;
+                }
+            }
+
+
+
+            this.currentMonthIncomeTXT.Text = currentMonthIncome.ToString();
+
+
+
+            var expenses = from i in db.Expenses select i;
+
+
+
+            double currentMothExpense = 0.0f;
+
+
+
+            foreach (Expense expense in expenses)
+            {
+                if (expense.Date.Value.Month == DateTime.Today.Month)
+                {
+                    currentMothExpense += expense.Amount.Value;
+                }
+            }
+
+
+
+            this.currentMonthExpenseTXT.Text = currentMothExpense.ToString();
+
+
+
+            this.currentMonthSavingTXT.Text = (currentMonthIncome - currentMothExpense).ToString();
+
+            var reminders = from i in db.Reminders where i.Date.Value.Month == DateTime.Today.Month select i;
+
+            
+            this.HomePageCalander.SelectedDate = null; DateTime firstDayOfMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+            DateTime lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1); //this.HomePageCalander.DisplayMode = CalendarMode.Month;
+            this.HomePageCalander.DisplayDateStart = firstDayOfMonth;
+            this.HomePageCalander.DisplayDateEnd = lastDayOfMonth; 
+            
+            foreach (Reminder r in reminders)
+            {
+                if (r.Date.Value.Month == DateTime.Today.Month)
+                    currentMonthReminders.Add(r.Date.Value);
+            }
+            this.HomePageCalander.SelectedDate = DateTime.Today.Date; 
+        }
+
+        private void calendarButton_Loaded(object sender, EventArgs e)
+        {
+            CalendarDayButton button = (CalendarDayButton)sender;
+            DateTime date = (DateTime)button.DataContext;
+            HighlightDay(button, date);
+            button.DataContextChanged += new DependencyPropertyChangedEventHandler(calendarButton_DataContextChanged);
+        }
+        private void HighlightDay(CalendarDayButton button, DateTime date)
+        {
+            if (currentMonthReminders.Contains(date))
+                button.Background = Brushes.OrangeRed;
+            else if (date == DateTime.Today.Date)
+                button.Background = Brushes.Gray;
+            else
+                button.Background = Brushes.White;
+        }
+        private void calendarButton_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            CalendarDayButton button = (CalendarDayButton)sender;
+            DateTime date = (DateTime)button.DataContext;
+            HighlightDay(button, date);
         }
 
         void OnIncomeBTNClick(object sender, RoutedEventArgs e)
@@ -107,6 +194,24 @@ namespace BudgetTracApp
             this.IncomeListPageGrid.Visibility = Visibility.Visible;
             this.AddIncomePageGrid.Visibility = Visibility.Hidden;
             this.EditIncomePageGrid.Visibility = Visibility.Hidden;
+
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+            var incomes = from i in db.Incomes orderby i.Date descending select i;
+
+            double currentMonthIncome = 0.0f;
+
+
+
+            foreach (Income i in incomes)
+            {
+                if (i.Date.Value.Month == DateTime.Today.Month)
+                    currentMonthIncome += i.Amount.Value;
+            }
+
+
+
+            this.IncomePageCurrentMonthTXT.Text = "Current Month Income : " + currentMonthIncome.ToString();
         }
 
         void OnExpensBTNClick(object sender, RoutedEventArgs e)
@@ -120,6 +225,28 @@ namespace BudgetTracApp
             this.ExpenseListPageGrid.Visibility = Visibility.Visible;
             this.AddExpensePageGrid.Visibility = Visibility.Hidden;
             this.EditExpensePageGrid.Visibility = Visibility.Hidden;
+
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+
+
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
+
+
+
+            double currentMonthExpense = 0.0f;
+
+
+
+            foreach (Expense i in expenses)
+            {
+                if (i.Date.Value.Month == DateTime.Today.Month)
+                    currentMonthExpense += i.Amount.Value;
+            }
+
+
+
+            this.ExpensePageCurrentMonthTXT.Text = "Current Month Expense : " + currentMonthExpense.ToString();
         }
 
         void OnReminderBTNClick(object sender, RoutedEventArgs e)
@@ -156,6 +283,7 @@ namespace BudgetTracApp
             double totalIncome = 0.0f;
             double lastMonthIncome = 0.0f;
             double currentMonthIncome = 0.0f;
+
 
             foreach(Income i in incomes)
             {
