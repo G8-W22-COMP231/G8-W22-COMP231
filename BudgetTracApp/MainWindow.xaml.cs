@@ -143,6 +143,42 @@ namespace BudgetTracApp
             this.currentMonthSavingTXT.Text = (currentMonthIncome - currentMothExpense).ToString();
 
             var reminders = from i in db.Reminders where i.Date.Value.Month == DateTime.Today.Month select i;
+
+            
+            this.HomePageCalander.SelectedDate = null; DateTime firstDayOfMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+            DateTime lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1); //this.HomePageCalander.DisplayMode = CalendarMode.Month;
+            this.HomePageCalander.DisplayDateStart = firstDayOfMonth;
+            this.HomePageCalander.DisplayDateEnd = lastDayOfMonth; 
+            
+            foreach (Reminder r in reminders)
+            {
+                if (r.Date.Value.Month == DateTime.Today.Month)
+                    currentMonthReminders.Add(r.Date.Value);
+            }
+            this.HomePageCalander.SelectedDate = DateTime.Today.Date; 
+        }
+
+        private void calendarButton_Loaded(object sender, EventArgs e)
+        {
+            CalendarDayButton button = (CalendarDayButton)sender;
+            DateTime date = (DateTime)button.DataContext;
+            HighlightDay(button, date);
+            button.DataContextChanged += new DependencyPropertyChangedEventHandler(calendarButton_DataContextChanged);
+        }
+        private void HighlightDay(CalendarDayButton button, DateTime date)
+        {
+            if (currentMonthReminders.Contains(date))
+                button.Background = Brushes.OrangeRed;
+            else if (date == DateTime.Today.Date)
+                button.Background = Brushes.Gray;
+            else
+                button.Background = Brushes.White;
+        }
+        private void calendarButton_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            CalendarDayButton button = (CalendarDayButton)sender;
+            DateTime date = (DateTime)button.DataContext;
+            HighlightDay(button, date);
         }
 
         void OnIncomeBTNClick(object sender, RoutedEventArgs e)
@@ -225,6 +261,7 @@ namespace BudgetTracApp
             double totalIncome = 0.0f;
             double lastMonthIncome = 0.0f;
             double currentMonthIncome = 0.0f;
+
 
             foreach(Income i in incomes)
             {
