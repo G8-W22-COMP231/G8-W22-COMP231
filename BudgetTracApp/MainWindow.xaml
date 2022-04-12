@@ -15,8 +15,29 @@
             <Button Grid.Column="4" x:Name="AllBTN" Click="OnAllBTNClick" Content="All" VerticalAlignment="Center" Height="40" Width="160" Margin="640,5,0,5"/>
         </Grid>
 
-        <Grid x:Name="HomeGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom" Visibility="Hidden">
+        <Grid x:Name="HomeGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom" Visibility="Visible">
             <TextBlock Grid.Row="0" x:Name="HomeHeaderTXT" HorizontalAlignment="Center" Height="40" TextWrapping="Wrap" Text="Home Page" VerticalAlignment="Top" Width="250" TextAlignment="Center" FontSize="20" FontWeight="Bold"/>
+
+
+			<Grid Grid.Row="1" x:Name="HomePageGrid" HorizontalAlignment="Center" Height="320" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5">
+				<TextBlock Text="Current Month Income" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="10,15,0,0"></TextBlock>
+				<TextBlock Text="Current Month Expense" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="10,50,0,0"></TextBlock>
+				<TextBlock Text="Current Month Saving" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="10,85,0,0"></TextBlock>
+
+
+
+				<TextBlock x:Name="currentMonthIncomeTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="180,15,0,0"></TextBlock>
+				<TextBlock x:Name="currentMonthExpenseTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="180,50,0,0"></TextBlock>
+				<TextBlock x:Name="currentMonthSavingTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="180,85,0,0"></TextBlock>
+
+
+
+				<Calendar x:Name="HomePageCalander" SelectionMode="None" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,90,0">
+				</Calendar>
+
+
+			</Grid>
+
         </Grid>
 
         <Grid x:Name="IncomeGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom" Visibility="Hidden">
@@ -92,6 +113,7 @@
 
         <Grid x:Name="ExpenesGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom" Visibility="Hidden">
             <TextBlock Grid.Row="0" x:Name="ExpenseHeaderTXT" HorizontalAlignment="Center" Height="40" TextWrapping="Wrap" Text="Expense Page" VerticalAlignment="Top" Width="250" TextAlignment="Center" FontSize="20" FontWeight="Bold"/>
+            <TextBlock Grid.Row="0" x:Name="ExpensePageCurrentMonthTXT" HorizontalAlignment="Right" Height="40" TextWrapping="Wrap" Text="Current Month Expense : " VerticalAlignment="Top" Width="250" TextAlignment="Center" FontSize="15" FontWeight="Bold" Padding="0, 5, 0,0"/>
             <Grid Grid.Row="1" x:Name="ExpenseListPageGrid" HorizontalAlignment="Center" Height="320" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5" Visibility="Hidden">
                 <DataGrid x:Name="ExpenseList" HorizontalAlignment="Center" ColumnWidth="*" Height="275" VerticalAlignment="Top" Width="780" Margin="0,5,0,0" SelectionChanged="ExpenseList_SelectionChanged"></DataGrid>
                 <Button x:Name="AddExpenseBTM" Click="OnAddExpenseBTNClick" Content="Add Expense" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30" Width="160" Margin="0,0,400,5"></Button>
@@ -222,7 +244,7 @@
             </Grid>
         </Grid>
 
-        <Grid x:Name="AllGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom" Visibility="Visible">
+        <Grid x:Name="AllGrid" HorizontalAlignment="Center" Height="365" Width="790" Margin="0" VerticalAlignment="Bottom" Visibility="Hidden">
             <TextBlock Grid.Row="0" x:Name="AllHeaderTXT" HorizontalAlignment="Center" Height="40" TextWrapping="Wrap" Text="All Data Page" VerticalAlignment="Top" Width="250" TextAlignment="Center" FontSize="20" FontWeight="Bold"/>
             <Grid Grid.Row="1" x:Name="AllDataPageGrid" HorizontalAlignment="Center" Height="320" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5">
                 <Button x:Name="IncomeAllDataBTM" Click="OnIncomeAllDataBTNClick" Content="Income Data" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30" Width="160" Margin="0,15,250,5"></Button>
@@ -239,7 +261,31 @@
 
                     <Button x:Name="FilterIncomeAllDataBTM" Click="OnFilterIncomeAllDataBTNClick" Content="Filter Income Data" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30" Width="160" Margin="0,0,0,15"></Button>
                 </Grid>
-                
+
+                <Grid Grid.Row="1" x:Name="IncomeAllDataPageFilterdGrid" HorizontalAlignment="Center" Height="250" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5" Visibility="Hidden">
+                    <TextBlock Text="Current Month" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,15,0,0"></TextBlock>
+                    <TextBlock Text="Last Month" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,15,0,0"></TextBlock>
+                    <TextBlock Text="All" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,15,0,0"></TextBlock>
+
+                    <TextBlock Text="Income" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Left" Margin="50,50,0,0"></TextBlock>
+                    <TextBlock Text="Saving" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Left" Margin="50,85,0,0"></TextBlock>
+                    <TextBlock Text="Gift" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Left" Margin="50,120,0,0"></TextBlock>
+
+                    <TextBlock x:Name="currentMonthIncomeFilterTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,50,0,0"></TextBlock>
+                    <TextBlock x:Name="lastMonthIncomeFilterTXT" Text="0.0" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,50,0,0"></TextBlock>
+                    <TextBlock x:Name="allIncomeFilterTXT" Text="0.0" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,50,0,0"></TextBlock>
+
+                    <TextBlock x:Name="currentMonthSavingFilterTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,85,0,0"></TextBlock>
+                    <TextBlock x:Name="lastMonthSavingFilterTXT" Text="0.0" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,85,0,0"></TextBlock>
+                    <TextBlock x:Name="allSavingFilterTXT" Text="0.0" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,85,0,0"></TextBlock>
+
+                    <TextBlock x:Name="currentMonthGiftFilterTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,120,0,0"></TextBlock>
+                    <TextBlock x:Name="lastMonthGiftFilterTXT" Text="0.0" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,120,0,0"></TextBlock>
+                    <TextBlock x:Name="allGiftFilterTXT" Text="0.0" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,120,0,0"></TextBlock>
+
+                    <Button x:Name="FilterBackIncomeAllDataBTM" Click="OnIncomeAllDataBTNClick" Content="Remove Filter" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30" Width="160" Margin="0,0,0,15"></Button>
+                </Grid>
+
                 <Grid Grid.Row="1" x:Name="ExpenseAllDataPageNoFilterGrid" HorizontalAlignment="Center" Height="250" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5" Visibility="Hidden">
                     <TextBlock Text="Current Month Expense" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="10,15,0,0"></TextBlock>
                     <TextBlock Text="Last Month Expense" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="10,15,0,0"></TextBlock>
@@ -252,29 +298,11 @@
                     <Button x:Name="FilterExpenseAllDataBTM" Click="OnFilterExpenseAllDataBTNClick" Content="Filter Expense Data" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30" Width="160" Margin="0,0,0,15"></Button>
                 </Grid>
 
-                <Grid Grid.Row="1" x:Name="IncomeAllDataPageFilterdGrid" HorizontalAlignment="Center" Height="250" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5" Visibility="Hidden">
-                    <TextBlock Text="Current Month" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,15,0,0"></TextBlock>
-                    <TextBlock Text="Last Month" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,15,0,0"></TextBlock>
-                    <TextBlock Text="All" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,15,0,0"></TextBlock>
-                    <TextBlock Text="Income" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Left" Margin="50,50,0,0"></TextBlock>
-                    <TextBlock Text="Saving" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Left" Margin="50,85,0,0"></TextBlock>
-                    <TextBlock Text="Gift" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Left" Margin="50,120,0,0"></TextBlock>
-                    <TextBlock x:Name="currentMonthIncomeFilterTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,50,0,0"></TextBlock>
-                    <TextBlock x:Name="lastMonthIncomeFilterTXT" Text="0.0" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,50,0,0"></TextBlock>
-                    <TextBlock x:Name="allIncomeFilterTXT" Text="0.0" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,50,0,0"></TextBlock>
-                    <TextBlock x:Name="currentMonthSavingFilterTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,85,0,0"></TextBlock>
-                    <TextBlock x:Name="lastMonthSavingFilterTXT" Text="0.0" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,85,0,0"></TextBlock>
-                    <TextBlock x:Name="allSavingFilterTXT" Text="0.0" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,85,0,0"></TextBlock>
-                    <TextBlock x:Name="currentMonthGiftFilterTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,120,0,0"></TextBlock>
-                    <TextBlock x:Name="lastMonthGiftFilterTXT" Text="0.0" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,120,0,0"></TextBlock>
-                    <TextBlock x:Name="allGiftFilterTXT" Text="0.0" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,120,0,0"></TextBlock>
-                    <Button x:Name="FilterBackIncomeAllDataBTM" Click="OnIncomeAllDataBTNClick" Content="Remove Filter" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30" Width="160" Margin="0,0,0,15"></Button>
-                </Grid>
-
                 <Grid Grid.Row="1" x:Name="ExpenseAllDataPageFilterdGrid" HorizontalAlignment="Center" Height="250" VerticalAlignment="Bottom" Width="780" Margin="0,0,0,5" Visibility="Visible">
                     <TextBlock Text="Current Month" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,15,0,0"></TextBlock>
                     <TextBlock Text="Last Month" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,15,0,0"></TextBlock>
                     <TextBlock Text="All" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,15,0,0"></TextBlock>
+
                     <TextBlock Text="Utility" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Left" Margin="50,40,0,0"></TextBlock>
                     <TextBlock Text="Grocery" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Left" Margin="50,65,0,0"></TextBlock>
                     <TextBlock Text="Food" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Left" Margin="50,90,0,0"></TextBlock>
@@ -282,31 +310,37 @@
                     <TextBlock Text="Study" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Left" Margin="50,140,0,0"></TextBlock>
                     <TextBlock Text="Transportation" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Left" Margin="50,165,0,0"></TextBlock>
                     <TextBlock Text="Other" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Left" Margin="50,190,0,0"></TextBlock>
+
                     <TextBlock x:Name="currentMonthuitlityFilterTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,40,0,0"></TextBlock>
                     <TextBlock x:Name="lastMonthUtilityFilterTXT" Text="0.0" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,40,0,0"></TextBlock>
                     <TextBlock x:Name="allUtilityFilterTXT" Text="0.0" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,40,0,0"></TextBlock>
+
                     <TextBlock x:Name="currentMonthGroceryFilterTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,65,0,0"></TextBlock>
                     <TextBlock x:Name="lastMonthGroceryFilterTXT" Text="0.0" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,65,0,0"></TextBlock>
                     <TextBlock x:Name="allGroceryFilterTXT" Text="0.0" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,65,0,0"></TextBlock>
+
                     <TextBlock x:Name="currentMonthFoodFilterTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,90,0,0"></TextBlock>
                     <TextBlock x:Name="lastMonthFoodFilterTXT" Text="0.0" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,90,0,0"></TextBlock>
                     <TextBlock x:Name="allFoodFilterTXT" Text="0.0" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,90,0,0"></TextBlock>
+
                     <TextBlock x:Name="currentMonthEntertainmentFilterTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,115,0,0"></TextBlock>
                     <TextBlock x:Name="lastMonthEntertainmentFilterTXT" Text="0.0" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,115,0,0"></TextBlock>
                     <TextBlock x:Name="allEntertainmentFilterTXT" Text="0.0" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,115,0,0"></TextBlock>
+
                     <TextBlock x:Name="currentMonthStudyFilterTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,140,0,0"></TextBlock>
                     <TextBlock x:Name="lastMonthStudyFilterTXT" Text="0.0" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,140,0,0"></TextBlock>
                     <TextBlock x:Name="allStudyFilterTXT" Text="0.0" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,140,0,0"></TextBlock>
+
                     <TextBlock x:Name="currentMonthTransportationFilterTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,165,0,0"></TextBlock>
                     <TextBlock x:Name="lastMonthTransportationFilterTXT" Text="0.0" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,165,0,0"></TextBlock>
                     <TextBlock x:Name="allTransportationFilterTXT" Text="0.0" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,165,0,0"></TextBlock>
+
                     <TextBlock x:Name="currentMonthOtherFilterTXT" Text="0.0" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="75,190,0,0"></TextBlock>
                     <TextBlock x:Name="lastMonthOtherFilterTXT" Text="0.0" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="100,190,0,0"></TextBlock>
                     <TextBlock x:Name="allOtherFilterTXT" Text="0.0" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top" Width="250" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,190,0,0"></TextBlock>
+
                     <Button x:Name="FilterBackExpenseAllDataBTM" Click="OnExpenseAllDataBTNClick" Content="Remove Filter" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30" Width="160" Margin="0,0,0,5"></Button>
                 </Grid>
-
-
             </Grid>
         </Grid>
     </Grid>
