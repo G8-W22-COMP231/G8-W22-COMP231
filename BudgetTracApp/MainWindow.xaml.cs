@@ -225,6 +225,28 @@ namespace BudgetTracApp
             this.ExpenseListPageGrid.Visibility = Visibility.Visible;
             this.AddExpensePageGrid.Visibility = Visibility.Hidden;
             this.EditExpensePageGrid.Visibility = Visibility.Hidden;
+
+            BudgetTracDBEntities db = new BudgetTracDBEntities();
+
+
+
+            var expenses = from i in db.Expenses orderby i.Date descending select i;
+
+
+
+            double currentMonthExpense = 0.0f;
+
+
+
+            foreach (Expense i in expenses)
+            {
+                if (i.Date.Value.Month == DateTime.Today.Month)
+                    currentMonthExpense += i.Amount.Value;
+            }
+
+
+
+            this.ExpensePageCurrentMonthTXT.Text = "Current Month Expense : " + currentMonthExpense.ToString();
         }
 
         void OnReminderBTNClick(object sender, RoutedEventArgs e)
